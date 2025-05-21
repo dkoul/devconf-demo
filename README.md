@@ -56,11 +56,19 @@ npm run show-report
 ```
 devconf-demo/
 ├── tests/              # Test files
+│   ├── login.spec.ts   # Login test implementation
+│   ├── inventory.spec.ts # Inventory test implementation
+│   ├── login.abstract.spec.ts # Abstract login test
+│   └── inventory.abstract.spec.ts # Abstract inventory test
 ├── tests-examples/     # Example test files
 ├── pages/             # Page objects and test utilities
 ├── playwright.config.ts # Playwright configuration
 └── package.json       # Project dependencies and scripts
 ```
+
+The project includes several key test implementations:
+- `login.spec.ts` and `inventory.spec.ts`: Concrete test implementations
+- `login.abstract.spec.ts` and `inventory.abstract.spec.ts`: Abstract test classes that define the test structure and common functionality
 
 ## Configuration
 
