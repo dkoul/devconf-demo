@@ -13,4 +13,10 @@ test('Low abstraction login test', async ({ page }) => {
 
 // TODO: Add another test that sends a wrong password and asserts the presence of error button located by css ‘button.error-button’
 test('Login with wrong password shows error', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  await loginPage.open();
+  await loginPage.enterUsername('standard_user');
+  await loginPage.enterPassword('wrong_password');
+  await loginPage.clickLogin();
+  await page.locator('button.error-button').waitFor();
 });

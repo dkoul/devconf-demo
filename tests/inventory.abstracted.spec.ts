@@ -26,7 +26,19 @@ test('Abstracted inventory test - add items to cart', async ({ page }) => {
 //    - Parse prices using parseFloat(price.replace('$', ''))
 //    - Use expect(firstPrice).toBeLessThan(secondPrice)
 test('Abstracted inventory test - sort items', async ({ page }) => {
-    // Your code here
+    const loginPageAbstracted = new LoginPageAbstracted(page);
+    await loginPageAbstracted.login('standard_user', 'secret_sauce');
+
+    const inventoryPage = new AbstractInventoryPage(page);
+    await inventoryPage.sortByPriceLowToHigh();
+    
+    const firstItem = await inventoryPage.getItemDetails(0);
+    const secondItem = await inventoryPage.getItemDetails(1);
+    
+    const firstPrice = parseFloat(firstItem.price!.replace('$', ''));
+    const secondPrice = parseFloat(secondItem.price!.replace('$', ''));
+    
+    expect(firstPrice).toBeLessThan(secondPrice);
 });
 
 // TODO: Complete this test case
@@ -39,5 +51,14 @@ test('Abstracted inventory test - sort items', async ({ page }) => {
 //    - Price contains '$': expect(itemDetails.price).toContain('$')
 //    - Description exists: expect(itemDetails.description).toBeTruthy()
 test('Abstracted inventory test - check item details', async ({ page }) => {
-   // Your code here
+    const loginPage = new LoginPageAbstracted(page);
+    await loginPage.login('standard_user', 'secret_sauce');
+  
+    const inventoryPage = new AbstractInventoryPage(page);
+    
+    // Get and verify item details using abstract methods
+    const itemDetails = await inventoryPage.getItemDetails(0);
+    expect(itemDetails.title).toBeTruthy();
+    expect(itemDetails.price).toContain('$');
+    expect(itemDetails.description).toBeTruthy();
   });

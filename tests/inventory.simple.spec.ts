@@ -24,7 +24,18 @@ test('Simple inventory test - add items to cart', async ({ page }) => {
 //    - Price should contain '$' (toContain('$'))
 //    - Description should exist (toBeTruthy())
 test('Simple inventory test - check item details', async ({ page }) => {
-  // Your code here
+  await page.goto('https://www.saucedemo.com');
+  await page.fill('#user-name', 'standard_user');
+  await page.fill('#password', 'secret_sauce');
+  await page.click('#login-button');
+
+  const firstItemTitle = await page.locator('.inventory_item:first-child .inventory_item_name').textContent();
+  const firstItemPrice = await page.locator('.inventory_item:first-child .inventory_item_price').textContent();
+  const firstItemDesc = await page.locator('.inventory_item:first-child .inventory_item_desc').textContent();
+
+  expect(firstItemTitle).toBeTruthy();
+  expect(firstItemPrice).toContain('$');
+  expect(firstItemDesc).toBeTruthy();
 });
 
 // TODO: Complete this test case
@@ -39,5 +50,15 @@ test('Simple inventory test - check item details', async ({ page }) => {
 //    - Second item: '.inventory_item:nth-child(2)'
 // 4. Compare the prices to verify sorting
 test('Simple inventory test - sort items', async ({ page }) => {
-  // Your code here
+  await page.goto('https://www.saucedemo.com');
+  await page.fill('#user-name', 'standard_user');
+  await page.fill('#password', 'secret_sauce');
+  await page.click('#login-button');
+
+  await page.selectOption('.product_sort_container', 'lohi');
+  
+  const firstItemPrice = await page.locator('.inventory_item:first-child .inventory_item_price').textContent();
+  const secondItemPrice = await page.locator('.inventory_item:nth-child(2) .inventory_item_price').textContent();
+  
+  expect(parseFloat(firstItemPrice!.replace('$', ''))).toBeLessThan(parseFloat(secondItemPrice!.replace('$', '')));
 });
